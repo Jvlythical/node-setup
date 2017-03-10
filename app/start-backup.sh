@@ -1,4 +1,4 @@
-export $(sed -e 's/:[^:\/\/]/=/g;s/$//g;s/ *=/=/g' ../config.yml)
+export $(sed -e 's/:[^:\/\/]/=/g;s/$//g;s/ *=/=/g' ../env.yml)
 
 if [ -z $CDE_NODE_NAMESPACE ]; then
 	echo "Namespace not specified, please set CDE_NODE_NAMESPACE"

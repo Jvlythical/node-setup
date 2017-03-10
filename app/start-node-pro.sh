@@ -10,11 +10,6 @@ else
 	name=$name-$1	
 fi
 
-if [ -z $CDE_NODE_CONTAINER_PROXY ]; then
-	echo "CDE_NODE_CONTAINER_PROXY not set."
-	exit
-fi
-
 master_ip_addr=$MASTER_IP_ADDR
 if [ -z $MASTER_IP_ADDR ]; then
 	master_ip_addr='76.20.12.203'
@@ -87,7 +82,7 @@ docker run -d  -h "$(uname -n)" --name $name \
 -v $docker:/var/run/docker.sock -v $(pwd)/logs/$name.log:$rails_root/log/production.log \
 -v $(pwd)/rsa_1024_priv.pem:$www_data_home/rsa_1024_priv.pem  -v $(pwd)/rsa_1024_pub.pem:$www_data_home/rsa_1024_pub.pem \
 -v /usr/lib/x86_64-linux-gnu/libapparmor.so.1:/usr/lib/x86_64-linux-gnu/libapparmor.so.1 \
--e "HOST_IP_ADDR=$CDE_NODE_HOST" -e "CONTAINER_PROXY=$CDE_NODE_CONTAINER_PROXY" \
+-e "HOST_IP_ADDR=$CDE_NODE_HOST" \
 -e "HOST_SYSTEM_ROOT=$host_system_root" -e "HOST_DRIVES_ROOT=$host_drives_root" \
 -e "HOST_PORT=$http_port" -e "GROUP_PASSWORD=$CDE_GROUP_PASSWORD" \
 -e "MASTER_IP_ADDR=$master_ip_addr" -e "MASTER_PORT=$master_port" -e "APP_TYPE=$CDE_NODE_APP_TYPE" \
