@@ -55,6 +55,11 @@ if [ -z $CDE_GROUP_PASSWORD ]; then
   exit
 fi
 
+if [ -z $CDE_NODE_APP_TYPE ]; then
+	echo 'CDE_NODE_APP_TYPE is not set.'
+	exit
+fi
+
 www_data_home=/var/www
 rails_root=/usr/share/nginx/html
 
@@ -85,7 +90,7 @@ docker run -d  -h "$(uname -n)" --name $name \
 -e "HOST_IP_ADDR=$CDE_NODE_HOST" -e "CONTAINER_PROXY=$CDE_NODE_CONTAINER_PROXY" \
 -e "HOST_SYSTEM_ROOT=$host_system_root" -e "HOST_DRIVES_ROOT=$host_drives_root" \
 -e "HOST_PORT=$http_port" -e "GROUP_PASSWORD=$CDE_GROUP_PASSWORD" \
--e "MASTER_IP_ADDR=$master_ip_addr" -e "MASTER_PORT=$master_port" -e "APP_TYPE=slave" \
+-e "MASTER_IP_ADDR=$master_ip_addr" -e "MASTER_PORT=$master_port" -e "APP_TYPE=$CDE_NODE_APP_TYPE" \
 -e "SELF_SYSTEM_ROOT=$container_system_root" -e "SELF_DRIVES_ROOT=$container_drives_root" \
 jvlythical/cde-node:v0.9.1-alpha sh -c "groupadd $docker_group -g $docker_gid; usermod -aG $docker_group www-data; /sbin/run.sh"
 
