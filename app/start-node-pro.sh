@@ -69,9 +69,13 @@ container_system_root=$rails_root/private/system
 # Docker 
 docker='/var/run/docker.sock'
 docker_group='docker'
-docker_gid=$(getent group docker | grep -Eo '[0-9]*')
+docker_gid=$(getent group docker | grep -Eo '[0-9]*' | head -n 1)
 
+# Create logs folder
+mkdir logs 2> /dev/null
 touch "logs/$name.log"
+
+# Let's go
 docker run -d  -h "$(uname -n)" --name $name \
 --link $CDE_NODE_NAMESPACE-cache:memcache \
 -v $host_drives_root:$container_drives_root \
@@ -88,6 +92,9 @@ docker run -d  -h "$(uname -n)" --name $name \
 -e "MASTER_IP_ADDR=$master_ip_addr" -e "MASTER_PORT=$master_port" -e "APP_TYPE=$CDE_NODE_APP_TYPE" \
 -e "SELF_SYSTEM_ROOT=$container_system_root" -e "SELF_DRIVES_ROOT=$container_drives_root" \
 jvlythical/cde-node:v0.9.1-alpha sh -c "groupadd $docker_group -g $docker_gid; usermod -aG $docker_group www-data; /sbin/run.sh"
+
+# Ensure log folder has proper permissions
+docker exec $name chown www-data:www-data log
 
 # cd /usr/share/nginx/html; export SECRET_KEY_BASE=\$(RAILS_ENV=production rake secret);
 #(nohup /sbin/my_init &);

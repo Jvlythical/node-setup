@@ -1,5 +1,5 @@
-mkdir drives
-mkdir system
+mkdir drives 2> /dev/null
+mkdir system 2> /dev/null
 
 if [ -z $1 ]; then
 	echo 'USAGE: sh init.sh [NUM_NODES]'
