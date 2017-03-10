@@ -1,0 +1,10 @@
+drives
+system
+app/logs
+app/share
+app/backup
+app/settings.yml
+load-balancer/sed*
+reverse-proxy/certs/*
+env.yml
+*.pem
