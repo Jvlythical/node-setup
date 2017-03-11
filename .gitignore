@@ -8,3 +8,4 @@ load-balancer/sed*
 reverse-proxy/certs/*
 env.yml
 *.pem
+load-balancer/default.conf
