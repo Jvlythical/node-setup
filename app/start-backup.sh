@@ -23,6 +23,8 @@ docker_gid=$(getent group docker | grep -Eo '[0-9]*')
 docker run -d  -h "$(uname -n)" --name $name \
 -v $host_drives_root:$container_drives_root \
 -v $host_system_root:$container_system_root \
--v $(pwd)/backup:$rails_root/private/backup \
 -v /var/run/docker.sock:/var/run/docker.sock \
-jvlythical/cde-backup sh -c "groupadd $docker_group -g $docker_gid; usermod -aG $docker_group www-data; /sbin/run.sh"
+-e BORG_CACHE_DIR=$rails_root'/.cache/borg'  \
+-e BORG_KEYS_DIR=$rails_root'/.config/borg/keys' \
+-e BORG_SECURITY_DIR=$rails_root'/.config/borg/security' \
+jvlythical/cde-backup:dev sh -c "groupadd $docker_group -g $docker_gid; usermod -aG $docker_group www-data; /sbin/run.sh"
