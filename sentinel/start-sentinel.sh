@@ -5,7 +5,7 @@ if [ -z $CDE_NODE_NAMESPACE ]; then
 	exit
 fi
 
-name=$CDE_NODE_NAMESPACE-warden
+name=$CDE_NODE_NAMESPACE-sentinel
 
 master_ip_addr=$MASTER_IP_ADDR
 if [ -z $MASTER_IP_ADDR ]; then
@@ -77,21 +77,15 @@ docker run -itd  -h "$(uname -n)" --name $name \
 --link $CDE_NODE_NAMESPACE-cache:memcache \
 -v $host_drives_root:$container_drives_root \
 -v $host_system_root:$container_system_root \
--v $(pwd)/share:$rails_root/public/share \
--v $(pwd)/backup:$rails_root/private/backup \
--v $(pwd)/settings.yml:$rails_root/config/settings.yml \
+-v $(pwd)/../app/settings.yml:$rails_root/config/settings.yml \
 -v $docker:/var/run/docker.sock -v $(pwd)/logs/$name.log:$rails_root/log/production.log \
--v $(pwd)/rsa_1024_priv.pem:$www_data_home/rsa_1024_priv.pem  -v $(pwd)/rsa_1024_pub.pem:$www_data_home/rsa_1024_pub.pem \
 -v /usr/lib/x86_64-linux-gnu/libapparmor.so.1:/usr/lib/x86_64-linux-gnu/libapparmor.so.1 \
--e "HOST_IP_ADDR=$CDE_NODE_HOST" -e "IS_HTTPS=true" \
+-e "HOST_IP_ADDR=$CDE_NODE_HOST" \
 -e "HOST_SYSTEM_ROOT=$host_system_root" -e "HOST_DRIVES_ROOT=$host_drives_root" \
 -e "HOST_PORT=$http_port" -e "GROUP_PASSWORD=$CDE_GROUP_PASSWORD" \
--e "MASTER_IP_ADDR=$master_ip_addr" -e "MASTER_PORT=$master_port" -e "APP_TYPE=$CDE_NODE_APP_TYPE" \
+-e "MASTER_IP_ADDR=$master_ip_addr" -e "MASTER_PORT=$master_port" \
 -e "SELF_SYSTEM_ROOT=$container_system_root" -e "SELF_DRIVES_ROOT=$container_drives_root" \
-jvlythical/cde-node:v0.9.2-alpha sh -c "groupadd $docker_group -g $docker_gid; usermod -aG $docker_group www-data; /bin/bash"
-
-# Ensure log folder has proper permissions
-docker exec $name chown www-data:www-data log
+jvlythical/cde-sentinel:v0.1.0 sh -c "groupadd $docker_group -g $docker_gid; usermod -aG $docker_group www-data; bundle exec whenever -w; service cron restart; /bin/bash"
 
 # cd /usr/share/nginx/html; export SECRET_KEY_BASE=\$(RAILS_ENV=production rake secret);
 #(nohup /sbin/my_init &);

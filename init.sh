@@ -46,3 +46,6 @@ cd ../load-balancer
 sed -e "s/__MARKER__/$s/" template.conf > default.conf
 sh start-load-balancer.sh
 
+# Start sentinel
+cd ../sentinel
+sh start-sentinel.sh
