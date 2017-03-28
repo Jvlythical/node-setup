@@ -1,19 +1,11 @@
-#if [ -z $CDE_NODE_IMAGE ]; then
-#	echo "CDE_NODE_IMAGE is not set."
-#	exit
-#fi
+export $(sed -e 's/:[^:\/\/]/=/g;s/$//g;s/ *=/=/g' ../env.yml)
 
 if [ -z $CDE_NODE_NAMESPACE ]; then
 	echo "Namespace not specified, please set CDE_NODE_NAMESPACE"
 	exit
 fi
 
-name=$CDE_NODE_NAMESPACE-node
-if [ -z $1 ]; then
-	echo "Suffix not specified, container will be called $name"
-else
-	name=$name-$1	
-fi
+name=$CDE_NODE_NAMESPACE-warden
 
 master_ip_addr=$MASTER_IP_ADDR
 if [ -z $MASTER_IP_ADDR ]; then
@@ -81,7 +73,7 @@ mkdir logs 2> /dev/null
 touch "logs/$name.log"
 
 # Let's go
-docker run -d  -h "$(uname -n)" --name $name \
+docker run -itd  -h "$(uname -n)" --name $name \
 --link $CDE_NODE_NAMESPACE-cache:memcache \
 -v $host_drives_root:$container_drives_root \
 -v $host_system_root:$container_system_root \
@@ -96,7 +88,7 @@ docker run -d  -h "$(uname -n)" --name $name \
 -e "HOST_PORT=$http_port" -e "GROUP_PASSWORD=$CDE_GROUP_PASSWORD" \
 -e "MASTER_IP_ADDR=$master_ip_addr" -e "MASTER_PORT=$master_port" -e "APP_TYPE=$CDE_NODE_APP_TYPE" \
 -e "SELF_SYSTEM_ROOT=$container_system_root" -e "SELF_DRIVES_ROOT=$container_drives_root" \
-jvlythical/cde-node:v0.9.4-alpha sh -c "groupadd $docker_group -g $docker_gid; usermod -aG $docker_group www-data; /sbin/run.sh"
+jvlythical/cde-node:v0.9.2-alpha sh -c "groupadd $docker_group -g $docker_gid; usermod -aG $docker_group www-data; /bin/bash"
 
 # Ensure log folder has proper permissions
 docker exec $name chown www-data:www-data log
