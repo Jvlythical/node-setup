@@ -5,7 +5,7 @@ if [ -z $CDE_NODE_NAMESPACE ]; then
 	exit
 fi
 
-name=$CDE_NODE_NAMESPACE-backup-dev
+name=$CDE_NODE_NAMESPACE-backup-fs
 
 rails_root=/usr/share/nginx/html
 
@@ -27,4 +27,4 @@ docker run -d  -h "$(uname -n)" --name $name \
 -e BORG_CACHE_DIR=$rails_root'/.cache/borg'  \
 -e BORG_KEYS_DIR=$rails_root'/.config/borg/keys' \
 -e BORG_SECURITY_DIR=$rails_root'/.config/borg/security' \
-jvlythical/cde-backup:dev sh -c "groupadd $docker_group -g $docker_gid; usermod -aG $docker_group www-data; /sbin/run.sh"
+jvlythical/cde-backup:fs sh -c "groupadd $docker_group -g $docker_gid; usermod -aG $docker_group www-data; /sbin/run.sh"
