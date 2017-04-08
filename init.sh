@@ -39,7 +39,7 @@ done
 
 # Start backup
 echo "Starting backup..."
-sh start-backup.sh
+cd ../backup && sh start-backup.sh
 
 # Start load balancer
 cd ../load-balancer
