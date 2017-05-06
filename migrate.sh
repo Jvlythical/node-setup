@@ -1,6 +1,10 @@
 # Export ENV variables
 export $(sed -e 's/:[^:\/\/]/=/g;s/$//g;s/ *=/=/g' env.yml)
 
+# Notify master that we are updating
+self_ip_addr=$(ip route get 8.8.8.8 | awk '{print $NF; exit}')
+curl --data "ip_addr=$self_ip_addr$&port=$CDE_NODE_PORT"  $MASTER_IP_ADDR:$MASTER_PORT/application/lock_node
+
 if [ -z $CDE_NODE_NAMESPACE ]; then
 	echo "Namespace not specified, please set CDE_NODE_NAMESPACE"
 	exit
