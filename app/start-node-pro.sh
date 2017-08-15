@@ -91,12 +91,12 @@ docker run -d  -h "$(uname -n)" --name $name \
 -v $docker:/var/run/docker.sock -v $(pwd)/logs/$name.log:$rails_root/log/production.log \
 -v $(pwd)/rsa_1024_priv.pem:$www_data_home/rsa_1024_priv.pem  -v $(pwd)/rsa_1024_pub.pem:$www_data_home/rsa_1024_pub.pem \
 -v /usr/lib/x86_64-linux-gnu/libapparmor.so.1:/usr/lib/x86_64-linux-gnu/libapparmor.so.1 \
--e "HOST_IP_ADDR=$CDE_NODE_HOST" -e "IS_HTTPS=true" \
+-e "HOST_IP_ADDR=$CDE_NODE_HOST" -e "IS_HTTPS=true" -e "RAILS_ENV=production" \
 -e "HOST_SYSTEM_ROOT=$host_system_root" -e "HOST_DRIVES_ROOT=$host_drives_root" \
 -e "HOST_PORT=$http_port" -e "GROUP_PASSWORD=$CDE_GROUP_PASSWORD" \
 -e "MASTER_IP_ADDR=$master_ip_addr" -e "MASTER_PORT=$master_port" -e "APP_TYPE=$CDE_NODE_APP_TYPE" \
 -e "SELF_SYSTEM_ROOT=$container_system_root" -e "SELF_DRIVES_ROOT=$container_drives_root" \
-jvlythical/cde-node:v0.9.4-alpha sh -c "groupadd $docker_group -g $docker_gid; usermod -aG $docker_group www-data; /sbin/run.sh"
+jvlythical/cde-node:0.9.7d-rc sh -c "groupadd $docker_group -g $docker_gid; usermod -aG $docker_group www-data; /sbin/run.sh"
 
 # Ensure log folder has proper permissions
 docker exec $name chown www-data:www-data log
