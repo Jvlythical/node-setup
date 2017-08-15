@@ -1,3 +1,5 @@
+export $(sed -e 's/:[^:\/\/]/=/g;s/$//g;s/ *=/=/g' ../env.yml)
+
 if [ -z $CDE_NODE_NAMESPACE ]; then
 	echo "Namespace not specified, please set CDE_NODE_NAMESPACE"
 	exit
@@ -18,7 +20,7 @@ fi
 
 name=$CDE_NODE_NAMESPACE-load-balancer
 
-docker run -d -p $CDE_NODE_PORT:80 --name $name \
+docker run -d -p 1337:80 --name $name \
 -e "VIRTUAL_HOST=$CDE_NODE_HOST"  \
 -v $(pwd)/default.conf:/etc/nginx/conf.d/default.conf \
 -v $(pwd)/nginx.conf:/etc/nginx/nginx.conf \
