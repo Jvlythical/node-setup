@@ -10,3 +10,4 @@ env.yml
 *.pem
 load-balancer/default.conf
 sentinel/logs
+backup/logs
