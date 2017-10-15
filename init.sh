@@ -38,8 +38,8 @@ do
 done
 
 # Start backup
-echo "Starting backup..."
-cd ../backup && sh start-backup.sh
+#echo "Starting backup..."
+#cd ../backup && sh start-backup.sh
 
 # Start load balancer
 cd ../load-balancer
