@@ -1,18 +1,26 @@
+if [ -z $1 ]; then
+	exit
+fi
+
+if [ -z $2 ]; then
+	exit
+fi
+
 cd ..
 
-mv drives drives.bak
-zfs create kodethon/production/drives
+mv $1 $1.bak
+zfs create kodethon/production/$1
 
-cd drives.bak
+cd $1.bak
 for f in *; do
-	echo "Creating zfs dataset kodethon/production/drives/$f"
-	zfs create kodethon/production/drives/$f
+	echo "Creating zfs dataset kodethon/production/$1/$f"
+	zfs create kodethon/production/$1/$f
 
-	echo "Setting 10G quota for zfs dataset kodethon/production/drives/$f"
-	zfs set quota=10G kodethon/production/drives/$f
+	echo "Setting $2 quota for zfs dataset kodethon/production/$1/$f"
+	zfs set quota=$2 kodethon/production/$1/$f
 
 	for v in $f/*; do
-		echo "Moving $v to ../drives/$f"
-		mv $v ../drives/$f
+		echo "Moving $v to ../$1/$f"
+		mv $v ../$1/$f
 	done
 done
