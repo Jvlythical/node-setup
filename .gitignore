@@ -11,3 +11,4 @@ env.yml
 load-balancer/default.conf
 sentinel/logs
 backup/logs
+zfs-rails/src
