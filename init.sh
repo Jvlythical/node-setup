@@ -34,7 +34,7 @@ do
 
 	new_ip_addr=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' $container)
 	echo "Started node with ip addr: $new_ip_addr"
-	s="$s\tserver $new_ip_addr fail_timeout=0;\n"
+	s="$s\tserver $new_ip_addr fail_timeout=30;\n"
 done
 
 # Start backup
