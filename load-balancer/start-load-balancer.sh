@@ -24,6 +24,8 @@ docker run -d -p 1337:80 --name $name \
 -e "VIRTUAL_HOST=$CDE_NODE_HOST"  \
 -v $(pwd)/default.conf:/etc/nginx/conf.d/default.conf \
 -v $(pwd)/nginx.conf:/etc/nginx/nginx.conf \
+-e "LETSENCRYPT_HOST=$CDE_NODE_HOST" \
+-e "LETSENCRYPT_EMAIL=$CDE_NODE_OWNER" \
 nginx
 
 # Add below if using letsencrypt for ssl
