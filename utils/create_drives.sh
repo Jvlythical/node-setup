@@ -1,2 +1,2 @@
-cd ../drives && cat ../utils/drives.txt | xargs -i zfs create kodethon/production/drives/{}
-cd ../drives && cat ../utils/drives.txt | xargs -i zfs create kodethon/production/system/{}
+cat drives.txt | xargs -i zfs create kodethon/production/drives/{}
+cat drives.txt | xargs -i zfs create kodethon/production/system/{}
