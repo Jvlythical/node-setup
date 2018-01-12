@@ -85,7 +85,7 @@ docker run -itd  -h "$(uname -n)" --name $name \
 -e "HOST_PORT=$http_port" -e "GROUP_PASSWORD=$CDE_GROUP_PASSWORD" \
 -e "MASTER_IP_ADDR=$master_ip_addr" -e "MASTER_PORT=$master_port" \
 -e "SELF_SYSTEM_ROOT=$container_system_root" -e "SELF_DRIVES_ROOT=$container_drives_root" \
-jvlythical/cde-sentinel:0.2.2 sh -c "groupadd $docker_group -g $docker_gid; usermod -aG $docker_group www-data; bundle exec whenever -w; service cron restart; /bin/bash"
+jvlythical/cde-sentinel:0.2.3 sh -c "groupadd $docker_group -g $docker_gid; usermod -aG $docker_group www-data; bundle exec whenever -w; service cron restart; /bin/bash"
 
 # cd /usr/share/nginx/html; export SECRET_KEY_BASE=\$(RAILS_ENV=production rake secret);
 #(nohup /sbin/my_init &);
