@@ -96,7 +96,7 @@ docker run -d  -h "$(uname -n)" --name $name \
 -e "HOST_PORT=$http_port" -e "GROUP_PASSWORD=$CDE_GROUP_PASSWORD" \
 -e "MASTER_IP_ADDR=$master_ip_addr" -e "MASTER_PORT=$master_port" -e "APP_TYPE=$CDE_NODE_APP_TYPE" \
 -e "SELF_SYSTEM_ROOT=$container_system_root" -e "SELF_DRIVES_ROOT=$container_drives_root" \
-jvlythical/cde-node:0.9.18-rc sh -c "groupadd $docker_group -g $docker_gid; usermod -aG $docker_group www-data; /sbin/run.sh"
+jvlythical/cde-node:0.9.19-rc sh -c "groupadd $docker_group -g $docker_gid; usermod -aG $docker_group www-data; /sbin/run.sh"
 
 # Ensure log folder has proper permissions
 docker exec $name chown www-data:www-data log
