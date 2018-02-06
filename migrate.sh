@@ -25,7 +25,8 @@ do
 	echo "Stopping $container..."
 	docker stop $container
 	docker rm $container
-	cd app; sh driver.sh $i; cd ..
+	# $1 is the fully qualified docker image name of the cde-node
+	cd app; sh driver.sh $i $1; cd ..
 	sleep 5
 	new_ip_addr=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' $container)
 	echo "Replacing $old_ip_addr with $new_ip_addr"

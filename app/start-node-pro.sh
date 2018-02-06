@@ -15,6 +15,12 @@ else
 	name=$name-$1	
 fi
 
+docker_image_name=$2
+if [ -z $2 ]; then
+	docker_image_name='jvlythical/cde-node:0.9.20-rc'
+fi
+
+
 master_ip_addr=$MASTER_IP_ADDR
 if [ -z $MASTER_IP_ADDR ]; then
 	master_ip_addr='76.20.12.203'
@@ -96,7 +102,7 @@ docker run -d  -h "$(uname -n)" --name $name \
 -e "HOST_PORT=$http_port" -e "GROUP_PASSWORD=$CDE_GROUP_PASSWORD" \
 -e "MASTER_IP_ADDR=$master_ip_addr" -e "MASTER_PORT=$master_port" -e "APP_TYPE=$CDE_NODE_APP_TYPE" \
 -e "SELF_SYSTEM_ROOT=$container_system_root" -e "SELF_DRIVES_ROOT=$container_drives_root" \
-jvlythical/cde-node:0.9.20-rc sh -c "groupadd $docker_group -g $docker_gid; usermod -aG $docker_group www-data; /sbin/run.sh"
+$docker_image_name sh -c "groupadd $docker_group -g $docker_gid; usermod -aG $docker_group www-data; /sbin/run.sh"
 
 # Ensure log folder has proper permissions
 docker exec $name chown www-data:www-data log
