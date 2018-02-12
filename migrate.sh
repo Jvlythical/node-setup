@@ -39,14 +39,15 @@ old_ip_addr=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' $seed)
 echo "Stopping $seed..."
 docker stop $seed
 docker rm $seed
-cd app; sh driver.sh 1; cd ..
+cd app; sh driver.sh 1 $1; cd ..
 sleep 5
 new_ip_addr=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' $seed)
 echo "Replacing $old_ip_addr with $new_ip_addr"
 sed -i -e "s/$old_ip_addr/$new_ip_addr/g" load-balancer/default.conf
 
 # Finish up, reload nginx
+docker restart $lb_name
 #docker exec $lb_name service nginx reload
-docker exec $lb_name service nginx stop
-sleep 5
-docker start $lb_name
+#docker exec $lb_name service nginx stop
+#sleep 5
+#docker start $lb_name
