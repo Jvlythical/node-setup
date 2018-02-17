@@ -84,7 +84,12 @@ docker_gid=$(getent group docker | grep -Eo '[0-9]*' | head -n 1)
 
 # Create logs folder
 mkdir logs 2> /dev/null
-touch "logs/$name.log"
+production_log=$name.log
+touch "logs/$production_log"
+puma_stdout=puma.stdout.log
+touch "logs/$puma_stdout"
+puma_stderr=puma.stderr.log
+touch "logs/$puma_stderr"
 
 # Let's go
 docker run -d  -h "$(uname -n)" --name $name \
@@ -94,7 +99,9 @@ docker run -d  -h "$(uname -n)" --name $name \
 -v $(pwd)/share:$rails_root/public/share \
 -v $(pwd)/backup:$rails_root/private/backup \
 -v $(pwd)/settings.yml:$rails_root/config/settings.yml \
--v $docker:/var/run/docker.sock -v $(pwd)/logs/$name.log:$rails_root/log/production.log \
+-v $docker:/var/run/docker.sock -v $(pwd)/logs/$production_log:$rails_root/log/production.log \
+-v $(pwd)/logs/$name.$puma_stdout:$rails_root/log/$puma_stdout \
+-v $(pwd)/logs/$name.$puma_stderr:$rails_root/log/$puma_stderr \
 -v $(pwd)/rsa_1024_priv.pem:$www_data_home/rsa_1024_priv.pem  -v $(pwd)/rsa_1024_pub.pem:$www_data_home/rsa_1024_pub.pem \
 -v /usr/lib/x86_64-linux-gnu/libapparmor.so.1:/usr/lib/x86_64-linux-gnu/libapparmor.so.1 \
 -e "HOST_IP_ADDR=$CDE_NODE_HOST" -e "IS_HTTPS=true" -e "RAILS_ENV=production" \
@@ -105,7 +112,7 @@ docker run -d  -h "$(uname -n)" --name $name \
 $docker_image_name sh -c "groupadd $docker_group -g $docker_gid; usermod -aG $docker_group www-data; /sbin/run.sh"
 
 # Ensure log folder has proper permissions
-docker exec $name chown www-data:www-data log
+docker exec $name chown -R www-data:www-data log
 
 # cd /usr/share/nginx/html; export SECRET_KEY_BASE=\$(RAILS_ENV=production rake secret);
 #(nohup /sbin/my_init &);
