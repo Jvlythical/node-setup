@@ -87,9 +87,9 @@ mkdir logs 2> /dev/null
 production_log=$name.log
 touch "logs/$production_log"
 puma_stdout=puma.stdout.log
-touch "logs/$puma_stdout"
+touch "logs/$name.$puma_stdout"
 puma_stderr=puma.stderr.log
-touch "logs/$puma_stderr"
+touch "logs/$name.$puma_stderr"
 
 # Let's go
 docker run -d  -h "$(uname -n)" --name $name \
