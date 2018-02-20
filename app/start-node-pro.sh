@@ -84,12 +84,12 @@ docker_gid=$(getent group docker | grep -Eo '[0-9]*' | head -n 1)
 
 # Create logs folder
 mkdir logs 2> /dev/null
-production_log=$name.log
-touch "logs/$production_log"
+production_log=production.log
+touch "logs/$name.$production_log" 2> /dev/null
 puma_stdout=puma.stdout.log
-touch "logs/$name.$puma_stdout"
+touch "logs/$name.$puma_stdout" 2> /dev/null
 puma_stderr=puma.stderr.log
-touch "logs/$name.$puma_stderr"
+touch "logs/$name.$puma_stderr" 2> /dev/null
 
 # Let's go
 docker run -d  -h "$(uname -n)" --name $name \
@@ -99,7 +99,7 @@ docker run -d  -h "$(uname -n)" --name $name \
 -v $(pwd)/share:$rails_root/public/share \
 -v $(pwd)/backup:$rails_root/private/backup \
 -v $(pwd)/settings.yml:$rails_root/config/settings.yml \
--v $docker:/var/run/docker.sock -v $(pwd)/logs/$production_log:$rails_root/log/production.log \
+-v $docker:/var/run/docker.sock -v $(pwd)/logs/$name.$production_log:$rails_root/log/$production_log \
 -v $(pwd)/logs/$name.$puma_stdout:$rails_root/log/$puma_stdout \
 -v $(pwd)/logs/$name.$puma_stderr:$rails_root/log/$puma_stderr \
 -v $(pwd)/rsa_1024_priv.pem:$www_data_home/rsa_1024_priv.pem  -v $(pwd)/rsa_1024_pub.pem:$www_data_home/rsa_1024_pub.pem \
