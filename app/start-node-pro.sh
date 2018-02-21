@@ -97,6 +97,7 @@ docker run -d  -h "$(uname -n)" --name $name \
 -v $host_drives_root:$container_drives_root \
 -v $host_system_root:$container_system_root \
 -v $(pwd)/share:$rails_root/public/share \
+-v $(pwd)/sync:$rails_root/public/sync \
 -v $(pwd)/backup:$rails_root/private/backup \
 -v $(pwd)/settings.yml:$rails_root/config/settings.yml \
 -v $docker:/var/run/docker.sock -v $(pwd)/logs/$name.$production_log:$rails_root/log/$production_log \
