@@ -57,14 +57,8 @@ global_container_settings:
   HostConfig:
     Flags:
       - PublishAllPorts
-    BlkioDeviceWriteBps:
-      - Path: '/dev/sda'
-        Rate: 10485760
-    BlkioDeviceReadBps: 
-      - Path: '/dev/sda'
-        Rate: 10485760
     CpuPeriod: 100000
-    CpuQuota: 200000
+    CpuQuota: 125000
     Memory: 536870912
     KernelMemory: 104857600
     StorageOpt:
