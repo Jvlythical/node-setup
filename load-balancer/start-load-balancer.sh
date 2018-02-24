@@ -22,6 +22,7 @@ name=$CDE_NODE_NAMESPACE-load-balancer
 
 docker run -d -p 1337:80 --name $name \
 -e "VIRTUAL_HOST=$CDE_NODE_HOST"  \
+-e "HTTPS_METHOD=noredirect" \
 -v $(pwd)/default.conf:/etc/nginx/conf.d/default.conf \
 -v $(pwd)/nginx.conf:/etc/nginx/nginx.conf \
 nginx
