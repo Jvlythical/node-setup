@@ -1,3 +1,5 @@
+mkdir certs 2> /dev/null
+
 docker rm -f nginx-proxy
 docker rm -f letsencrypt
 
