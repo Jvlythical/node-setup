@@ -1,3 +1,6 @@
+echo "Expecting user to have sudo permission, is that ok?"
+sudo echo '' > /dev/null
+
 # Export ENV variables
 export $(sed -e 's/:[^:\/\/]/=/g;s/$//g;s/ *=/=/g' env.yml)
 
@@ -29,8 +32,10 @@ do
 	cd app; sh driver.sh $i $1; cd ..
 	sleep 5
 	new_ip_addr=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' $container)
-	echo "Replacing $old_ip_addr with $new_ip_addr"
-	sed -i -e "s/$old_ip_addr/$new_ip_addr/g" load-balancer/default.conf
+
+	echo "Old ip addr: $old_ip_addr - New ip addr: $new_ip_addr"
+	#echo "Replacing $old_ip_addr with $new_ip_addr"
+	#sed -i -e "s/$old_ip_addr/$new_ip_addr/g" load-balancer/default.conf
 
 done
 
@@ -42,11 +47,12 @@ docker rm $seed
 cd app; sh driver.sh 1 $1; cd ..
 sleep 5
 new_ip_addr=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' $seed)
-echo "Replacing $old_ip_addr with $new_ip_addr"
-sed -i -e "s/$old_ip_addr/$new_ip_addr/g" load-balancer/default.conf
+echo "Old ip addr: $old_ip_addr - New ip addr: $new_ip_addr"
+#echo "Replacing $old_ip_addr with $new_ip_addr"
+#sed -i -e "s/$old_ip_addr/$new_ip_addr/g" load-balancer/default.conf
 
 # Finish up, reload nginx
-docker restart $lb_name
+#docker restart $lb_name
 #docker exec $lb_name service nginx reload
 #docker exec $lb_name service nginx stop
 #sleep 5

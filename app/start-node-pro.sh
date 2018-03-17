@@ -17,7 +17,7 @@ fi
 
 docker_image_name=$2
 if [ -z $2 ]; then
-	docker_image_name='jvlythical/cde-node:0.9.21-rc'
+	docker_image_name='jvlythical/cde-node:0.9.22-rc'
 fi
 
 
@@ -91,9 +91,16 @@ touch "logs/$name.$puma_stdout" 2> /dev/null
 puma_stderr=puma.stderr.log
 touch "logs/$name.$puma_stderr" 2> /dev/null
 
+if [ -z  $(sudo ls /root/.ssh/id_rsa.pub) ]; then
+	# Create root public/private key
+    echo "Create root public/private key..."
+    sudo -u root ssh-keygen -t rsa -N "" -f /root/.ssh/id_rsa
+fi
+
 # Let's go
 docker run -d  -h "$(uname -n)" --name $name \
 --link $CDE_NODE_NAMESPACE-cache:memcache \
+-v /root/.ssh/id_rsa.pub:/root/.ssh/id_rsa.pub \
 -v $host_drives_root:$container_drives_root \
 -v $host_system_root:$container_system_root \
 -v $(pwd)/share:$rails_root/public/share \

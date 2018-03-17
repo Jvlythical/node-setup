@@ -1,3 +1,6 @@
+echo "Expecting user to have sudo permission, is that ok?"
+sudo echo '' > /dev/null
+
 mkdir drives 2> /dev/null
 mkdir system 2> /dev/null
 
