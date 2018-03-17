@@ -1,5 +1,5 @@
 echo "Expecting user to have sudo permission, is that ok?"
-sudo echo '' > /dev/null
+sudo sudo apt-get install ruby-dev ruby-bundler libsqlite3-dev ruby-whenever
 
 mkdir drives 2> /dev/null
 mkdir system 2> /dev/null
@@ -54,10 +54,12 @@ sed -e "s/__MARKER__/$s/" template.conf > default.conf
 sh start-load-balancer.sh
 
 # Get lib
+mkdir ../lib 2> /dev/null
 cd ../lib
 git clone https://github.com/jimsalterjrs/sanoid.git
 git clone https://github.com/kodethon/CDE-Sentinel.git
 
 # Start sentinel
-cd CDE-Sentinel && whenever -w && sudo service cron restart; sudo rake daemon:bunny:start
-ln -s ../../../env.yml config/env.yml
+cd CDE-Sentinel && sudo bundle install && \
+	whenever -w && sudo service cron restart; \
+	sudo rake daemon:bunny:start; ln -s ../../../env.yml config/env.yml
