@@ -60,6 +60,6 @@ git clone https://github.com/jimsalterjrs/sanoid.git
 git clone https://github.com/kodethon/CDE-Sentinel.git
 
 # Start sentinel
-cd CDE-Sentinel && sudo bundle install && \
+cd CDE-Sentinel && export RAILS_ENV=production; sudo bundle install && \
 	whenever -w && sudo service cron restart; \
 	sudo rake daemon:bunny:start; ln -s ../../../env.yml config/env.yml
