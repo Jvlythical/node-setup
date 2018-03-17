@@ -49,3 +49,7 @@ sh start-load-balancer.sh
 # Start sentinel
 cd ../sentinel
 sh start-sentinel.sh
+
+# Get lib
+cd ../lib
+git clone https://github.com/jimsalterjrs/sanoid.git

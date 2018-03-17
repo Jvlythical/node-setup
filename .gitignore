@@ -13,3 +13,4 @@ sentinel/logs
 backup/logs
 zfs-rails/src
 debug
+lib/*
