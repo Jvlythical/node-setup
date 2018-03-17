@@ -15,6 +15,9 @@ export $(sed -e 's/:[^:\/\/]/=/g;s/$//g;s/ *=/=/g' env.yml)
 # Start memcache
 cd cache && sh start-cache.sh
 
+# Start rabbitmq
+cd ../rabbitmq && sh start-rabbitmq.sh
+
 # Start nodes
 echo 'Generating node public/private key'
 cd ../app
