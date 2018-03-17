@@ -16,6 +16,7 @@ export $(sed -e 's/:[^:\/\/]/=/g;s/$//g;s/ *=/=/g' env.yml)
 cd cache && sh start-cache.sh
 
 # Start nodes
+echo 'Generating node public/private key'
 cd ../app
 priv_key=rsa_1024_priv.pem
 pub_key=rsa_1024_pub.pem
@@ -55,5 +56,5 @@ git clone https://github.com/jimsalterjrs/sanoid.git
 git clone https://github.com/kodethon/CDE-Sentinel.git
 
 # Start sentinel
-cd CDE-Sentinel && whenever -w && service cron restart && sudo rake daemon:bunny:start
+cd CDE-Sentinel && whenever -w && sudo service cron restart; sudo rake daemon:bunny:start
 ln -s ../../../env.yml config/env.yml

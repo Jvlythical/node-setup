@@ -3,12 +3,12 @@
 #	exit
 #fi
 
-if [ -z $CDE_NODE_NAMESPACE ]; then
-	echo "Namespace not specified, please set CDE_NODE_NAMESPACE"
+if [ -z $NODE_NAMESPACE ]; then
+	echo "NODE_NAMESPACE is not set."
 	exit
 fi
 
-name=$CDE_NODE_NAMESPACE-node
+name=$NODE_NAMESPACE-node
 if [ -z $1 ]; then
 	echo "Suffix not specified, container will be called $name"
 else
@@ -24,45 +24,45 @@ fi
 master_ip_addr=$MASTER_IP_ADDR
 if [ -z $MASTER_IP_ADDR ]; then
 	master_ip_addr='76.20.12.203'
-  echo "Master ip addr not specified.  Default to $master_ip_addr"
+  echo "MASTER_IP_ADDR is not set. Default to $master_ip_addr"
 fi
 
 master_port=$MASTER_PORT
 if [ -z $MASTER_PORT ]; then
   master_port=3000
-  echo "Master port not specified.  Default to $master_port"
+  echo "MASTER_PORT is not set. Default to $master_port"
 fi
 
-if [ -z $CDE_NODE_HOST ]; then
-  echo "Host not specified."
+if [ -z $NODE_HOST ]; then
+  echo "NODE_HOST is not set."
   exit 
 fi
 
-http_port=$CDE_NODE_PORT
-if [ -z $CDE_NODE_PORT ]; then
+http_port=$NODE_PORT
+if [ -z $NODE_PORT ]; then
   http_port=2375
-  echo "Host port not specified.  Default to $http_port"
+  echo "NODE_PORT is not set. Default to $http_port"
 fi
 
 # Check where user files should be put
-if [ -z $CDE_NODE_DRIVES ]; then 
-  echo 'CDE_NODE_DRIVES is not set.'
+if [ -z $NODE_DRIVES ]; then 
+  echo 'NODE_DRIVES is not set.'
   exit
 fi
 
 # Check where private files should be put
-if [ -z $CDE_NODE_SYSTEM ]; then 
-  echo 'CDE_NODE_SYSTEM is not set.'
+if [ -z $NODE_SYSTEM ]; then 
+  echo 'NODE_SYSTEM is not set.'
   exit
 fi
 
-if [ -z $CDE_GROUP_PASSWORD ]; then
-  echo 'CDE_GROUP_PASSWORD is not set.'
+if [ -z $GROUP_PASSWORD ]; then
+  echo 'GROUP_PASSWORD is not set.'
   exit
 fi
 
-if [ -z $CDE_NODE_APP_TYPE ]; then
-	echo 'CDE_NODE_APP_TYPE is not set.'
+if [ -z $NODE_APP_TYPE ]; then
+	echo 'NODE_APP_TYPE is not set.'
 	exit
 fi
 
@@ -70,11 +70,11 @@ www_data_home=/var/www
 rails_root=/usr/share/nginx/html
 
 # Should be path user files
-host_drives_root=$CDE_NODE_DRIVES
+host_drives_root=$NODE_DRIVES
 container_drives_root=$rails_root/private/drives
 
 # Should be path to private dir
-host_system_root=$CDE_NODE_SYSTEM
+host_system_root=$NODE_SYSTEM
 container_system_root=$rails_root/private/system
 
 # Docker 
@@ -99,7 +99,7 @@ fi
 
 # Let's go
 docker run -d  -h "$(uname -n)" --name $name \
---link $CDE_NODE_NAMESPACE-cache:memcache \
+--link $NODE_NAMESPACE-cache:memcache \
 -v /root/.ssh/id_rsa.pub:/root/.ssh/id_rsa.pub \
 -v $host_drives_root:$container_drives_root \
 -v $host_system_root:$container_system_root \
@@ -112,10 +112,10 @@ docker run -d  -h "$(uname -n)" --name $name \
 -v $(pwd)/logs/$name.$puma_stderr:$rails_root/log/$puma_stderr \
 -v $(pwd)/rsa_1024_priv.pem:$www_data_home/rsa_1024_priv.pem  -v $(pwd)/rsa_1024_pub.pem:$www_data_home/rsa_1024_pub.pem \
 -v /usr/lib/x86_64-linux-gnu/libapparmor.so.1:/usr/lib/x86_64-linux-gnu/libapparmor.so.1 \
--e "HOST_IP_ADDR=$CDE_NODE_HOST" -e "IS_HTTPS=true" -e "RAILS_ENV=production" \
+-e "HOST_IP_ADDR=$NODE_HOST" -e "IS_HTTPS=true" -e "RAILS_ENV=production" \
 -e "HOST_SYSTEM_ROOT=$host_system_root" -e "HOST_DRIVES_ROOT=$host_drives_root" \
--e "HOST_PORT=$http_port" -e "GROUP_PASSWORD=$CDE_GROUP_PASSWORD" \
--e "MASTER_IP_ADDR=$master_ip_addr" -e "MASTER_PORT=$master_port" -e "APP_TYPE=$CDE_NODE_APP_TYPE" \
+-e "HOST_PORT=$http_port" -e "GROUP_PASSWORD=$GROUP_PASSWORD" \
+-e "MASTER_IP_ADDR=$master_ip_addr" -e "MASTER_PORT=$master_port" -e "APP_TYPE=$NODE_APP_TYPE" \
 -e "SELF_SYSTEM_ROOT=$container_system_root" -e "SELF_DRIVES_ROOT=$container_drives_root" \
 $docker_image_name sh -c "groupadd $docker_group -g $docker_gid; usermod -aG $docker_group www-data; /sbin/run.sh"
 
