@@ -9,7 +9,6 @@ reverse-proxy/certs/*
 env.yml
 *.pem
 load-balancer/default.conf
-sentinel/logs
 backup/logs
 zfs-rails/src
 debug

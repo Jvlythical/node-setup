@@ -49,10 +49,10 @@ cd ../load-balancer
 sed -e "s/__MARKER__/$s/" template.conf > default.conf
 sh start-load-balancer.sh
 
-# Start sentinel
-cd ../sentinel
-sh start-sentinel.sh
-
 # Get lib
 cd ../lib
 git clone https://github.com/jimsalterjrs/sanoid.git
+git clone https://github.com/kodethon/CDE-Sentinel.git
+
+# Start sentinel
+cd CDE-Sentinel && whenever -w && service cron restart && sudo rake daemon:bunny:start
