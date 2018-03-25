@@ -102,7 +102,7 @@ docker run -d  -h "$(uname -n)" --name $name \
 --link $NODE_NAMESPACE-cache:memcache \
 --link $NODE_NAMESPACE-rabbitmq:rabbitmq \
 -v /root/.ssh/id_rsa.pub:/root/.ssh/id_rsa.pub \
--v $host_drives_root:$container_drives_root \
+-v $host_drives_root:$container_drives_root:shared \
 -v $host_system_root:$container_system_root \
 -v $(pwd)/share:$rails_root/public/share \
 -v $(pwd)/sync:$rails_root/public/sync \
