@@ -56,7 +56,6 @@ sh start-load-balancer.sh
 # Get lib
 mkdir ../lib 2> /dev/null
 cd ../lib
-git clone https://github.com/jimsalterjrs/sanoid.git
 git clone https://github.com/kodethon/CDE-Sentinel.git
 
 # Start sentinel
