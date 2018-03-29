@@ -13,3 +13,4 @@ backup/logs
 zfs-rails/src
 debug
 lib/*
+migrate.rb

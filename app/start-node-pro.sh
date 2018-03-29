@@ -33,6 +33,12 @@ if [ -z $MASTER_PORT ]; then
   echo "MASTER_PORT is not set. Default to $master_port"
 fi
 
+master_password=$MASTER_PASSWORD
+if [ -z $MASTER_PORT ]; then
+  master_port=abc123
+  echo "MASTER_PORT is not set. Default to $master_port"
+fi
+
 if [ -z $NODE_HOST ]; then
   echo "NODE_HOST is not set."
   exit 
@@ -115,7 +121,7 @@ docker run -d  -h "$(uname -n)" --name $name \
 -v /usr/lib/x86_64-linux-gnu/libapparmor.so.1:/usr/lib/x86_64-linux-gnu/libapparmor.so.1 \
 -e "HOST_IP_ADDR=$NODE_HOST" -e "IS_HTTPS=true" -e "RAILS_ENV=production" \
 -e "HOST_SYSTEM_ROOT=$host_system_root" -e "HOST_DRIVES_ROOT=$host_drives_root" \
--e "HOST_PORT=$http_port" -e "GROUP_PASSWORD=$GROUP_PASSWORD" \
+-e "HOST_PORT=$http_port" -e "GROUP_PASSWORD=$GROUP_PASSWORD" -e "MASTER_PASSWORD=$master_password" \
 -e "MASTER_IP_ADDR=$master_ip_addr" -e "MASTER_PORT=$master_port" -e "APP_TYPE=$NODE_APP_TYPE" \
 -e "SELF_SYSTEM_ROOT=$container_system_root" -e "SELF_DRIVES_ROOT=$container_drives_root" \
 $docker_image_name sh -c "groupadd $docker_group -g $docker_gid; usermod -aG $docker_group www-data; /sbin/run.sh"
