@@ -1,5 +1,5 @@
 echo "Expecting user to have sudo permission, is that ok?"
-sudo sudo apt-get install ruby-dev ruby-bundler libsqlite3-dev ruby-whenever
+sudo sudo apt-get install ruby-dev ruby-bundler libsqlite3-dev ruby-whenever lzop mbuffer
 
 mkdir drives 2> /dev/null
 mkdir system 2> /dev/null
