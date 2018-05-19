@@ -1,5 +1,5 @@
 echo "Expecting user to have sudo permission, is that ok?"
-sudo sudo apt-get install ruby-dev ruby-bundler libsqlite3-dev ruby-whenever lzop mbuffer
+sudo sudo apt-get install build-essential ruby-dev ruby-bundler libsqlite3-dev ruby-whenever lzop mbuffer zlib1g-dev -y
 
 mkdir drives 2> /dev/null
 mkdir system 2> /dev/null
@@ -59,7 +59,9 @@ cd ../lib
 git clone https://github.com/kodethon/CDE-Sentinel.git
 
 # Start sentinel
-cd CDE-Sentinel && export RAILS_ENV=production; sudo bundle install && \
+cd CDE-Sentinel && export RAILS_ENV=production;  
+	ln -s ../../../env.yml config/env.yml; \
+	ln -s ../../../app/settings.yml config/settings.yml;
+	sudo bundle install && \
 	whenever -w && sudo service cron restart; \
-	sudo rake daemon:zfs:start; ln -s ../../../env.yml config/env.yml \
-	ln -s ../../../app/settings.yml config/settings.yml
+	sudo rake daemon:zfs:start;
