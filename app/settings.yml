@@ -1,6 +1,6 @@
 application:
   group_name: 'CDE'
-  group_version: '1.0.9'
+  group_version: '1.0.10'
     
 # Will be exposed to frontend
 environments:
@@ -8,7 +8,7 @@ environments:
     2.7.9: 'jvlythical/python:2.7.9'
     3.6.3: 'jvlythical/python:3.6.3'
   c: 'jvlythical/c_cpp:5.4.0'
-  go: 'jvlythical/go:1.6.2'
+  go: 'jvlythical/go:1.10.1'
   java: 'jvlythical/java:1.8.0'
   javascript : 'jvlythical/javascript:node-5.6.0'
   lisp: 'jvlythical/lisp:common-2.49'
@@ -58,19 +58,25 @@ global_container_settings:
       - PublishAllPorts
     CpuPeriod: 100000
     CpuQuota: 125000
-    Memory: 536870912
-    KernelMemory: 104857600
+    CpuShares: 512
+    CpusetCpus: '2,7'
+    Memory: 268435456
+    KernelMemory: 67108864
     StorageOpt:
       size: '1G'
+    Ulimits:
+      - Name: 'fsize'
+        Soft: 50000000
+        Hard: 50000000
  
 custom_container_settings:
   c:
     HostConfig:
       SecurityOpt:
         - 'seccomp:unconfined'
-  ruby:
+  go:
     Env:
-      - 'TEST=1'
+      - 'PATH=/bin:/usr/local/go/bin:/home/kodethon/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games'
   example:
     Cmd: ['/bin/sh']  
     Volumes:
