@@ -1,0 +1,27 @@
+This is the preliminary whitelist of IP addresses.
+
+docker containers
+whitelist ports
+22
+80
+443
+
+outgoing whitelist
+node-0
+node-1
+jarvis
+srg
+merge
+master 
+internal 172.17.0/24
+github.com
+ubuntu.com
+pip site
+uc davis subnets
+uc davis dns servers
+
+
+
+$ iptables -R DOCKER 1 -p tcp -j CUSTOM_DOCKER
+
+
