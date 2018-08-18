@@ -30,6 +30,7 @@ cd load-balancer; cat default.conf > default.conf.bak
 s="\tserver $temp_ip_addr fail_timeout=30;\n"
 sed -e "s/__MARKER__/$s/" template.conf > default.conf
 cd ..
+sleep 5
 docker exec $lb_name service nginx reload
 
 # Get number of containers
@@ -76,6 +77,7 @@ cd load-balancer
 #cat backup.conf > default.conf
 sed -e "s/__MARKER__/$s/" template.conf > default.conf
 docker exec $lb_name service nginx reload
+#sleep 5
 #rm backup.conf
 cd ..
 
