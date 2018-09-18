@@ -64,4 +64,4 @@ cd CDE-Sentinel && export RAILS_ENV=production;
 	ln -s ../../../app/settings.yml config/settings.yml;
 	sudo bundle install && \
 	whenever -w && sudo service cron restart; \
-	sudo rake daemon:zfs:start;
+	sudo bundle exec rake daemon:zfs:start;
