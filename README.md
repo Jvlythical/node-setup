@@ -9,20 +9,20 @@ Please refer to <a href="https://docs.kodethon.com/advanced/custom.html" target=
 ## Usage
 
 ### Init
-Starts Kodethon node(s), load-balancer, memcache, RabitMQ, CDE-Sentinel, and reverse-proxy.
+Starts Kodethon node(s), load-balancer, memcache, RabitMQ, CDE-Sentinel, and reverse-proxy containers.
 ``` 
 sh init.sh NUM_NODES
 cd reverse-proxy; sh start-reverse-proxy.sh
 ```
 
 ### Update
-Updates the nodes to a new build.
+Updates the node containers to a new build.
 ```
 sh migrate.sh
 ```
 
 ### Revive
-After server reboot, bring the nodes back alive.
+After server reboot, bring containers back alive.
 ```
 sh revive.sh
 ```
