@@ -1,3 +1,7 @@
+## Description
+
+The Kodethon cluster consists of a master server(s) and slave server(s). This repository holds configuration files and scripts for preparing and adding a slave server to the Kodethon cluster.
+
 ## Getting Started
 
 Please refer to <a href="https://docs.kodethon.com/advanced/custom.html" target="blank">Kodethon Docs</a>.
