@@ -1,5 +1,5 @@
 application:
-  config_version: '1.0.10'
+  config_version: '1.0.11'
   group_name: 'CDE'
   server_tier: 0
     
@@ -18,7 +18,7 @@ environments:
     gnu-1.4.4: 'jvlythical/prolog:gnu-1.4.4'
     swi-5.10.4: 'jvlythical/prolog:swi-5.10.4'
     swi-7.4.1: 'jvlythical/prolog:swi-7.4.1'
-  ruby: 'jvlythical/ruby:2.2.3'
+  ruby: 'jvlythical/ruby:2.3.1'
   r: 'jvlythical/r-lang:3.2.3'
   rust: 'jvlythical/rust:1.11.0'
   swift: 'jvlythical/swift:2.2'
