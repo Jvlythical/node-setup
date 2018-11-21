@@ -10,7 +10,7 @@ if [ -z $1 ]; then
 fi
 
 # Export ENV variables
-export $(sed -e 's/:[^:\/\/]/=/g;s/$//g;s/ *=/=/g' env.yml)
+export $(sed -e 's/:[^:\/\/]/=/g;s/$//g;s/ *=/=/g' config/env.yml)
 
 # Start memcache
 cd cache && sh start-cache.sh
@@ -60,7 +60,7 @@ git clone https://github.com/kodethon/CDE-Sentinel.git
 
 # Start sentinel
 cd CDE-Sentinel && export RAILS_ENV=production;  
-	ln -s ../../../env.yml config/env.yml; \
+	ln -s ../../../config/env.yml config/env.yml; \
 	ln -s ../../../app/settings.yml config/settings.yml;
 	sudo bundle install && \
 	whenever -w && sudo service cron restart; \

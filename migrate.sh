@@ -2,7 +2,7 @@ echo "Expecting user to have sudo permission, is that ok?"
 sudo echo '' > /dev/null
 
 # Export ENV variables
-export $(sed -e 's/:[^:\/\/]/=/g;s/$//g;s/ *=/=/g' env.yml)
+export $(sed -e 's/:[^:\/\/]/=/g;s/$//g;s/ *=/=/g' config/env.yml)
 
 # Notify master that we are updating
 curl --data "ip_addr=$NODE_HOST&port=$NODE_PORT"  https://$MASTER_IP_ADDR:$MASTER_PORT/application/lock_node

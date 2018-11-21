@@ -16,12 +16,12 @@ if [ -z $NODE_OWNER ]; then
 	echo "NODE_OWNER is not specified."
 fi
 
-if [ -z $(ls ../env.yml 2> /dev/null) ]; then
+if [ -z $(ls ../config/env.yml 2> /dev/null) ]; then
         echo 'Please create config/env.yml'
         exit
 else
         # Export ENV variables
-        export $(sed -e 's/:[^:\/\/]/=/g;s/$//g;s/ *=/=/g' ../env.yml)
+        export $(sed -e 's/:[^:\/\/]/=/g;s/$//g;s/ *=/=/g' ../config/env.yml)
 fi
 
 name=$NODE_NAMESPACE-load-balancer
