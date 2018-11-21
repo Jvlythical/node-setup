@@ -60,8 +60,8 @@ git clone https://github.com/kodethon/CDE-Sentinel.git
 
 # Start sentinel
 cd CDE-Sentinel && export RAILS_ENV=production;  
-	ln -s ../../../config/env.yml config/env.yml; \
-	ln -s ../../../app/settings.yml config/settings.yml;
+	ln -sf ../../../config/env.yml config/env.yml; \
+	ln -sf ../../../config/settings.yml config/settings.yml;
 	sudo bundle install && \
 	whenever -w && sudo service cron restart; \
 	sudo bundle exec rake daemon:zfs:start;

@@ -1,0 +1,95 @@
+application:
+  config_version: '1.0.11'
+  group_name: 'CDE'
+  server_tier: 0
+    
+# Will be exposed to frontend
+environments:
+  python: 
+    2.7.9: 'jvlythical/python:2.7.9'
+    3.6.3: 'jvlythical/python:3.6.3'
+  c: 'jvlythical/c_cpp:5.4.0'
+  go: 'jvlythical/go:1.10.1'
+  java: 'jvlythical/java:1.8.0'
+  javascript : 'jvlythical/javascript:node-5.6.0'
+  lisp: 'jvlythical/lisp:common-2.49'
+  php: 'jvlythical/php:7.0.13'
+  prolog: 
+    gnu-1.4.4: 'jvlythical/prolog:gnu-1.4.4'
+    swi-5.10.4: 'jvlythical/prolog:swi-5.10.4'
+    swi-7.4.1: 'jvlythical/prolog:swi-7.4.1'
+  ruby: 'jvlythical/ruby:2.3.1'
+  r: 'jvlythical/r-lang:3.2.3'
+  rust: 'jvlythical/rust:1.11.0'
+  swift: 'jvlythical/swift:2.2'
+
+#ruby: 
+#    2.1.3: 'jvlythical/ruby:2.1.3'
+#    2.2.3: 'jvlythical/ruby:2.2.3'
+
+global_shell_settings:
+  Run:
+    Display: '__SHELL'
+  Exec: 
+    Display: '__SHELL'
+    Command: 
+      - '*'
+
+custom_shell_settings:
+  ruby:
+    Exec:
+      Display: '__TERM'
+      Command: 
+        - 'rails *'
+        - 'sudo rails *'
+
+global_container_settings: 
+  Plugins:
+    - CDE
+    - Terminal
+    - Kodrive
+  User: 'kodethon'
+  WorkingDir: '/home/kodethon'
+  Flags:
+    - OpenStdin
+    - Tty
+  Cmd: ['sh', '-c', 'sudo service ssh start; /bin/bash'] 
+  HostConfig:
+    Flags:
+      - PublishAllPorts
+    CpuPeriod: 100000
+    CpuQuota: 125000
+    CpuShares: 512
+    CpusetCpus: '2,7'
+    Memory: 268435456
+    KernelMemory: 67108864
+    StorageOpt:
+      size: '1G'
+    Ulimits:
+      - Name: 'fsize'
+        Soft: 50000000
+        Hard: 50000000
+ 
+custom_container_settings:
+  c:
+    HostConfig:
+      SecurityOpt:
+        - 'seccomp:unconfined'
+  go:
+    Env:
+      - 'PATH=/bin:/usr/local/go/bin:/home/kodethon/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games'
+  example:
+    Cmd: ['/bin/sh']  
+    Volumes:
+      - name: 'secret'
+        mountPath: 'config/database.yml'
+    PortBindings:
+      - externalPort: 80
+        internalPort: 80
+    Env:
+      - "TEST1=1"
+      - "TEST2=2"
+    SecurityOpt:
+      - 'apparmor:unconfined'
+      
+

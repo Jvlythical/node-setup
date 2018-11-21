@@ -113,7 +113,7 @@ docker run -d  -h "$(uname -n)" --name $name \
 -v $(pwd)/share:$rails_root/public/share \
 -v $(pwd)/sync:$rails_root/public/sync \
 -v $(pwd)/backup:$rails_root/private/backup \
--v $(pwd)/settings.yml:$rails_root/config/settings.yml \
+-v $(pwd)/../config/settings.yml:$rails_root/config/settings.yml \
 -v $docker:/var/run/docker.sock -v $(pwd)/logs/$name.$production_log:$rails_root/log/$production_log \
 -v $(pwd)/logs/$name.$puma_stdout:$rails_root/log/$puma_stdout \
 -v $(pwd)/logs/$name.$puma_stderr:$rails_root/log/$puma_stderr \
