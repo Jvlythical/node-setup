@@ -6,6 +6,18 @@ The Kodethon cluster consists of a master server(s) and slave server(s). This re
 
 Please refer to <a href="https://docs.kodethon.com/advanced/custom.html" target="blank">Kodethon Docs</a>.
 
+## Setup
+
+### Run
+sh utils/setup.sh
+cd utils/zfs; sh create_drives.sh; sh zfs.sh
+cd utils; sh update-kernele-settings.sh
+
+### Edit
+config/settings.yml
+config/env.yml
+
+
 ## Usage
 
 ### Init
