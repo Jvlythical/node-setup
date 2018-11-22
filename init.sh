@@ -9,6 +9,18 @@ if [ -z $1 ]; then
 	exit
 fi
 
+env_config=config/env.yml
+if [ ! -e "$env_config" ]; then
+	echo "$env_config does not exist."
+	exit
+fi
+
+settings_config=config/settings.yml
+if [ ! -e "$settings_config" ]; then
+	echo "$settings_config does not exist."
+	exit
+fi
+
 # Export ENV variables
 export $(sed -e 's/:[^:\/\/]/=/g;s/$//g;s/ *=/=/g' config/env.yml)
 
