@@ -27,8 +27,8 @@ sudo chown -R kodethon:kodethon /home/kodethon/production
 
 # Install applicaiton files
 cd /home/kodethon/production && \
-        sudo -u kodethon git clone https://github.com/Jvlythical/CDE-Node.git && \
-        sudo -u kodethon mv CDE-Node/* . && sudo -u kodethon rmdir CDE-Node
+        sudo -u kodethon git clone https://github.com/Jvlythical/node-setup.git && \
+        sudo -u kodethon mv node-setup/.* node-setup/* . && sudo -u kodethon rmdir node-setup 
 
 # Install Docker
 sudo apt-get update
@@ -46,4 +46,5 @@ sudo usermod -aG docker jvlarble
 # Update docker config to use zfs storage driver
 echo "{\n\"storage-driver\": \"zfs\"\n}" | sudo tee /etc/docker/daemon.json
 
+cd ~; rm -rf node-setup
 sudo su - kodethon
