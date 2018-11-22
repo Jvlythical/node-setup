@@ -65,3 +65,5 @@ cd CDE-Sentinel && export RAILS_ENV=production;
 	sudo bundle install && \
 	whenever -w && sudo service cron restart; \
 	sudo bundle exec rake daemon:zfs:start;
+
+cd ../../reverse-proxy; sh start-reverse-proxy.sh
