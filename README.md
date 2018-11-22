@@ -11,7 +11,6 @@ Please refer to <a href="https://docs.kodethon.com/advanced/custom.html" target=
 ### Getting Ready
 ```
 sudo sh utils/setup.sh
-cd utils/zfs; sudo sh create_drives.sh; sh zfs.sh; cd ..; sudo sh update-kernel-settings.sh
 ```
 
 ### Editing Configs

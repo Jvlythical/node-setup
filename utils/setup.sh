@@ -46,5 +46,11 @@ sudo usermod -aG docker jvlarble
 # Update docker config to use zfs storage driver
 echo "{\n\"storage-driver\": \"zfs\"\n}" | sudo tee /etc/docker/daemon.json
 
+echo 'Creating zfs drives...'
+cd utils/zfs; sudo sh create_drives.sh; sudo sh zfs.sh;
+
+echo 'Updating system settings...'
+cd ..; sudo sh etc/update-kernel-settings.sh
+
 cd ~; rm -rf node-setup
 sudo su - kodethon
