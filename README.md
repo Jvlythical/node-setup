@@ -14,7 +14,7 @@ sudo sh utils/setup.sh
 ```
 
 ### Editing Configs
-config/settings.yml
+config/settings.yml  
 config/env.yml
 
 
