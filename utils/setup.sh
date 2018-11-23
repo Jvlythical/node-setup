@@ -28,7 +28,7 @@ sudo chown -R kodethon:kodethon /home/kodethon/production
 # Install applicaiton files
 cd /home/kodethon/production && \
         sudo -u kodethon git clone https://github.com/Jvlythical/node-setup.git && \
-        sudo -u kodethon mv node-setup/.* node-setup/* . && sudo rm -rf node-setup 
+        sudo -u kodethon mv node-setup/.* node-setup/* .; sudo rm -rf node-setup 
 
 # Install Docker
 sudo apt-get update
