@@ -7,3 +7,4 @@ docker start CDE-load-balancer
 #docker start CDE-backup
 docker start nginx-proxy
 sh migrate.sh
+cd lib/CDE-sentinel; sudo bundle exec rake daemon:zfs start; sudo bundle exec rake daemon:monitor:start; cd ../..
