@@ -47,7 +47,7 @@ sudo usermod -aG docker kodethon
 echo "{\n\"storage-driver\": \"zfs\"\n}" | sudo tee /etc/docker/daemon.json
 
 # Update ssh port to be 2249
-sudo sed -i 's/22/2249/' /etc/ssh/sshd_config
+sudo sed -i -e 's/22/2249/' /etc/ssh/sshd_config
 
 echo 'Creating zfs drives...'
 cd utils/zfs; sudo sh create_drives.sh; sudo sh update-zfs-settings.sh;
