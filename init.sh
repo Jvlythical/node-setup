@@ -79,3 +79,7 @@ cd CDE-Sentinel && export RAILS_ENV=production;
 	sudo bundle exec rake daemon:zfs:start;
 
 cd ../../reverse-proxy; sh start-reverse-proxy.sh
+
+# Pull default images
+docker pull jvlythical/python:2.7.9
+docker pull jvlythical/term
