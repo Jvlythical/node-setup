@@ -21,6 +21,9 @@ if [ ! -e "$settings_config" ]; then
 	exit
 fi
 
+# Create docker-internal network
+docker network create docker-internal
+
 # Export ENV variables
 export $(sed -e 's/:[^:\/\/]/=/g;s/$//g;s/ *=/=/g' config/env.yml)
 
@@ -51,7 +54,7 @@ do
 	docker exec $container chown www-data:www-data /var/www/$pub_key
 	docker exec $container chown www-data:www-data log/production.log
 
-	new_ip_addr=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' $container)
+	new_ip_addr=$(docker inspect --format '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $container)
 	echo "Started node with ip addr: $new_ip_addr"
 	s="$s\tserver $new_ip_addr fail_timeout=30;\n"
 done
