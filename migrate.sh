@@ -18,13 +18,13 @@ temp_node=$NODE_NAMESPACE-node-temp
 # Start a temp node container
 docker start $temp_node
 sleep 1
-temp_ip_addr=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' $temp_node)
-echo "Starting backup node with ip addr: $tmp_ip_addr"
+temp_ip_addr=$(docker inspect --format '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $temp_node)
+echo "Starting backup node with ip addr: $temp_ip_addr"
 if [ -z "$(docker ps | grep $temp_node)" ]; then
 	echo 'No backup node available, starting one...'
 	cd app; sh driver.sh temp; cd ..
 	sleep 5
-	temp_ip_addr=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' $temp_node)
+	temp_ip_addr=$(docker inspect --format '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $temp_node)
 fi
 cd load-balancer; cat default.conf > default.conf.bak
 s="\tserver $temp_ip_addr fail_timeout=30;\n"
@@ -44,7 +44,7 @@ for i in `seq 1 $max`
 do
 	#container=$(docker ps | grep "$key" | awk "FNR == $i {print}" | awk '{print $1}')
 	container=$NODE_NAMESPACE-node-$i
-	old_ip_addr=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' $container)
+	old_ip_addr=$(docker inspect --format '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $container)
 	
 	echo "Stopping $container..."
 	docker stop $container
@@ -52,7 +52,7 @@ do
 	# $1 is the fully qualified docker image name of the cde-node
 	cd app; sh driver.sh $i $1; cd ..
 	sleep 5
-	new_ip_addr=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' $container)
+	new_ip_addr=$(docker inspect --format '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $container)
 
 	echo "Old ip addr: $old_ip_addr - New ip addr: $new_ip_addr"
 	s="$s\tserver $new_ip_addr fail_timeout=30;\n"
