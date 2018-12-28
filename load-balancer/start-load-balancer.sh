@@ -27,6 +27,7 @@ fi
 name=$NODE_NAMESPACE-load-balancer
 if [ -z $USE_LETSENCRYPT ]; then
 	docker run -d -p 1337:80 --name $name \
+	--network docker-internal \
 	-e "VIRTUAL_HOST=$NODE_HOST"  \
 	-e "HTTPS_METHOD=noredirect" \
 	-v $(pwd)/default.conf:/etc/nginx/conf.d/default.conf \
@@ -34,6 +35,7 @@ if [ -z $USE_LETSENCRYPT ]; then
 	nginx
 else
 	docker run -d -p 1337:80 --name $name \
+	--network docker-internal \
 	-e "VIRTUAL_HOST=$NODE_HOST"  \
 	-e "HTTPS_METHOD=noredirect" \
 	-e "LETSENCRYPT_HOST=$NODE_HOST" \

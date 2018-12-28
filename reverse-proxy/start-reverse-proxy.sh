@@ -4,6 +4,7 @@ docker rm -f nginx-proxy
 docker rm -f letsencrypt
 
 docker run -d -p 80:80 -p 443:443 \
+	--network docker-internal \
 	--name nginx-proxy \
 	-v $(pwd)/my_proxy.conf:/etc/nginx/conf.d/my_proxy.conf:ro \
 	-v $(pwd)/certs:/etc/nginx/certs:ro \
@@ -13,6 +14,7 @@ docker run -d -p 80:80 -p 443:443 \
 	jwilder/nginx-proxy
 
 docker run -d \
+	--network docker-internal \
 	--name letsencrypt \
 	-v $(pwd)/certs:/etc/nginx/certs:rw \
 	--volumes-from nginx-proxy \
