@@ -1,7 +1,5 @@
 application:
   config_version: '1.0.11'
-  group_name: 'CDE'
-  server_tier: 0
     
 # Will be exposed to frontend
 environments:
