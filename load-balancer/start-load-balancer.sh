@@ -1,3 +1,11 @@
+if [ -z $(ls ../config/env.yml 2> /dev/null) ]; then
+        echo 'Please create config/env.yml'
+        exit
+else
+        # Export ENV variables
+        export $(sed -e 's/:[^:\/\/]/=/g;s/$//g;s/ *=/=/g' ../config/env.yml)
+fi
+
 if [ -z $NODE_NAMESPACE ]; then
 	echo "NODE_NAMESPACE is not specified."
 	exit
@@ -14,14 +22,6 @@ fi
 
 if [ -z $NODE_OWNER ]; then
 	echo "NODE_OWNER is not specified."
-fi
-
-if [ -z $(ls ../config/env.yml 2> /dev/null) ]; then
-        echo 'Please create config/env.yml'
-        exit
-else
-        # Export ENV variables
-        export $(sed -e 's/:[^:\/\/]/=/g;s/$//g;s/ *=/=/g' ../config/env.yml)
 fi
 
 name=$NODE_NAMESPACE-load-balancer
