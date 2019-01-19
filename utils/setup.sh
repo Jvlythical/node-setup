@@ -16,7 +16,7 @@ usermod -aG sudo kodethon
 echo 'kodethon ALL=(ALL) NOPASSWD:ALL' | sudo tee -a /etc/sudoers
 
 # Install ZFS
-sudo apt install zfsutils-linux 
+sudo apt install -y zfsutils-linux 
 sudo zpool create -f zpool-docker /dev/sdb 
 sudo zfs create -o mountpoint=/var/lib/docker zpool-docker/docker
 sudo zpool create -f kodethon /dev/sdc
@@ -27,12 +27,12 @@ sudo chown -R kodethon:kodethon /home/kodethon/production
 
 # Install applicaiton files
 cd /home/kodethon/production && \
-        sudo -u kodethon git clone https://github.com/Jvlythical/CDE-Node.git && \
-        sudo -u kodethon mv CDE-Node/* . && sudo -u kodethon rmdir CDE-Node
+        sudo -u kodethon git clone https://github.com/Jvlythical/node-setup.git && \
+        sudo -u kodethon mv node-setup/.* node-setup/* .; sudo rm -rf node-setup 
 
 # Install Docker
 sudo apt-get update
-sudo apt-get install     apt-transport-https     ca-certificates     curl     software-properties-common
+sudo apt-get install -y     apt-transport-https     ca-certificates     curl     software-properties-common
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 sudo add-apt-repository    "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
         $(lsb_release -cs) \
@@ -40,10 +40,24 @@ sudo add-apt-repository    "deb [arch=amd64] https://download.docker.com/linux/u
 sudo apt-get update
 apt-cache docker-ce
 apt-cache madison docker-ce
-sudo apt-get install docker-ce=17.09.0~ce-0~ubuntu
-sudo usermod -aG docker jvlarble
+sudo apt-get install -y docker-ce=17.09.0~ce-0~ubuntu
+sudo usermod -aG docker kodethon
 
 # Update docker config to use zfs storage driver
 echo "{\n\"storage-driver\": \"zfs\"\n}" | sudo tee /etc/docker/daemon.json
 
+# Update ssh port to be 2249
+sudo sed -i -e 's/22/2249/' /etc/ssh/sshd_config
+sudo service sshd restart
+
+# ZFS replicate won't work if strict host key checking is not confirmed
+sudo sed -i -e 's/#   StrictHostKeyChecking ask/    StrictHostKeyChecking no/' /etc/ssh/ssh_config
+
+echo 'Creating zfs drives...'
+cd utils/zfs; sudo sh create_drives.sh; sudo sh update-zfs-settings.sh;
+
+echo 'Updating system settings...'
+cd ..; sudo sh etc/update-kernel-settings.sh
+
+cd ~; rm -rf node-setup
 sudo su - kodethon

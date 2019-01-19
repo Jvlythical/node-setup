@@ -15,3 +15,4 @@ debug
 lib/*
 migrate.rb
 load-balancer/default.conf.bak
+config/settings.yml

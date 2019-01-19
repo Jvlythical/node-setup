@@ -17,7 +17,7 @@ fi
 
 docker_image_name=$2
 if [ -z $2 ]; then
-	docker_image_name='jvlythical/cde-node:1.3.0-rc'
+	docker_image_name='jvlythical/cde-node:1.3.3-rc'
 fi
 
 
@@ -105,15 +105,14 @@ fi
 
 # Let's go
 docker run -d  -h "$(uname -n)" --name $name \
---link $NODE_NAMESPACE-cache:memcache \
---link $NODE_NAMESPACE-rabbitmq:rabbitmq \
+--network docker-internal \
 -v /root/.ssh/id_rsa.pub:/root/.ssh/id_rsa.pub \
 -v $host_drives_root:$container_drives_root:shared \
 -v $host_system_root:$container_system_root \
 -v $(pwd)/share:$rails_root/public/share \
 -v $(pwd)/sync:$rails_root/public/sync \
 -v $(pwd)/backup:$rails_root/private/backup \
--v $(pwd)/settings.yml:$rails_root/config/settings.yml \
+-v $(pwd)/../config/settings.yml:$rails_root/config/settings.yml \
 -v $docker:/var/run/docker.sock -v $(pwd)/logs/$name.$production_log:$rails_root/log/$production_log \
 -v $(pwd)/logs/$name.$puma_stdout:$rails_root/log/$puma_stdout \
 -v $(pwd)/logs/$name.$puma_stderr:$rails_root/log/$puma_stderr \
@@ -124,6 +123,7 @@ docker run -d  -h "$(uname -n)" --name $name \
 -e "HOST_PORT=$http_port" -e "GROUP_PASSWORD=$GROUP_PASSWORD" -e "MASTER_PASSWORD=$master_password" \
 -e "MASTER_IP_ADDR=$master_ip_addr" -e "MASTER_PORT=$master_port" -e "APP_TYPE=$NODE_APP_TYPE" \
 -e "SELF_SYSTEM_ROOT=$container_system_root" -e "SELF_DRIVES_ROOT=$container_drives_root" \
+-e "MEMCACHE_HOSTNAME=$NODE_NAMESPACE-cache" -e "RABBITMQ_HOSTNAME=$NODE_NAMESPACE-rabbitmq" \
 $docker_image_name sh -c "groupadd $docker_group -g $docker_gid; usermod -aG $docker_group www-data; /sbin/run.sh"
 
 # Ensure log folder has proper permissions
@@ -134,3 +134,6 @@ docker exec $name chown -R www-data:www-data log
 #-v $(which docker):/usr/bin/docker
 
 #-v $CDE_NODE_SRC:/root/cde-node -v $CDE_NODE_HOME_CONF:$www_data_home/.config \
+
+#--link $NODE_NAMESPACE-cache:memcache \
+#--link $NODE_NAMESPACE-rabbitmq:rabbitmq \

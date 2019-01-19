@@ -1,14 +1,15 @@
 application:
-  config_version: '1.0.11'
   group_name: 'CDE'
-  server_tier: 0
+  config_version: '1.0.11'
     
 # Will be exposed to frontend
 environments:
   python: 
     2.7.9: 'jvlythical/python:2.7.9'
     3.6.3: 'jvlythical/python:3.6.3'
-  c: 'jvlythical/c_cpp:5.4.0'
+  c: 
+    5.4.0: 'jvlythical/c_cpp:5.4.0'
+    8.1.0: 'jvlythical/c_cpp:8.1.0'
   go: 'jvlythical/go:1.10.1'
   java: 'jvlythical/java:1.8.0'
   javascript : 'jvlythical/javascript:node-5.6.0'

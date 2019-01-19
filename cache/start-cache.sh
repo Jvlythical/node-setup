@@ -5,4 +5,4 @@ fi
 
 name=$NODE_NAMESPACE-cache
 echo "Creating $name"
-docker run -d --name $name -m 64m memcached 
+docker run -d --network docker-internal --name $name -m 64m memcached 

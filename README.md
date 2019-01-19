@@ -6,13 +6,24 @@ The Kodethon cluster consists of a master server(s) and slave server(s). This re
 
 Please refer to <a href="https://docs.kodethon.com/advanced/custom.html" target="blank">Kodethon Docs</a>.
 
+## Setup
+
+### Getting Ready
+```
+sudo sh utils/setup.sh
+```
+
+### Editing Configs
+config/settings.yml  
+config/env.yml
+
+
 ## Usage
 
 ### Init
 Starts Kodethon node(s), load-balancer, memcache, RabitMQ, CDE-Sentinel, and reverse-proxy containers.
 ``` 
 sh init.sh NUM_NODES
-cd reverse-proxy; sh start-reverse-proxy.sh
 ```
 
 ### Update
