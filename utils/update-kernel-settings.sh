@@ -13,6 +13,8 @@ echo "536870912" | sudo tee /sys/module/zfs/parameters/zfs_arc_min
 update-initramfs -u -k all
 
 # Adjust IO scheduler
+# https://blog.codeship.com/linux-io-scheduler-tuning
+# Edit /et/default/grub -> GRUB_CMDLINE_LINUX="elevator=noop"
 #printf 'noop' | sudo tee /sys/block/<device>/queue/scheduler
 
 # Adjust ZFS internal scheduler
