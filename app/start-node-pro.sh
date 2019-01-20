@@ -34,9 +34,9 @@ if [ -z $MASTER_PORT ]; then
 fi
 
 master_password=$MASTER_PASSWORD
-if [ -z $MASTER_PORT ]; then
-  master_port=abc123
-  echo "MASTER_PORT is not set. Default to $master_port"
+if [ -z $MASTER_PASSWORD ]; then
+  master_password=abc123
+  echo "MASTER_password is not set. Default to $master_password"
 fi
 
 if [ -z $NODE_HOST ]; then
