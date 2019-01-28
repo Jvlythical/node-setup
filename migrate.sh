@@ -1,3 +1,5 @@
+cd /home/kodethon/production
+
 echo "Expecting user to have sudo permission, is that ok?"
 sudo echo '' > /dev/null
 
