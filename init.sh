@@ -81,8 +81,13 @@ cd CDE-Sentinel && export RAILS_ENV=production;
 	whenever -w && sudo service cron restart; \
 	sudo bundle exec rake daemons:start; \
 
-cd ../../reverse-proxy; sh start-reverse-proxy.sh
+cd ../../reverse-proxy; sh start-reverse-proxy.sh; cd ..
 
 # Pull default images
 docker pull jvlythical/python:2.7.9
 docker pull jvlythical/term
+
+# Create drives container
+docker run --name drives -itd \
+	-v $(pwd)/drives:/home/kodethon/drives -v $(pwd)/system:/home/kodethon/system \
+	jvlythical/python:2.7.9 /bin/bash
