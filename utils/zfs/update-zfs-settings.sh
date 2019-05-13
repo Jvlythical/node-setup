@@ -11,8 +11,11 @@
 
 # Change the IO Scheduler.
 # This ensures that the cgroup block weight settings are enforced.
-printf 'cfq' > /sys/module/zfs/parameters/zfs_vdev_scheduler
+printf 'noop' | sudo tee /sys/module/zfs/parameters/zfs_vdev_scheduler
 cat /sys/module/zfs/parameters/zfs_vdev_scheduler
+
+# Adjust IO scheduler
+printf 'noop' | sudo tee /sys/block/<device>/queue/scheduler
 
 # Make changes permanent
 if [ ! -f "zfs.conf" ]; then
@@ -36,9 +39,3 @@ chown root:root /etc/modprobe.d/zfs.conf
 echo "2147483648" | sudo tee /sys/module/zfs/parameters/zfs_arc_max
 echo "536870912" | sudo tee /sys/module/zfs/parameters/zfs_arc_min
 update-initramfs -u -k all
-
-# Adjust IO scheduler
-#printf 'noop' | sudo tee /sys/block/<device>/queue/scheduler
-
-# Adjust ZFS internal scheduler
-printf 'cfq' | sudo tee /sys/module/zfs/parameters/zfs_vdev_scheduler
