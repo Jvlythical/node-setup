@@ -17,7 +17,7 @@ fi
 
 docker_image_name=$2
 if [ -z $2 ]; then
-	docker_image_name='jvlythical/cde-node:1.5.0-rc'
+	docker_image_name='jvlythical/cde-node:1.5.1-rc'
 fi
 
 
